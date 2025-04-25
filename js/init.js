@@ -511,7 +511,7 @@ function manee_tm_contact_form(){
 		}
 		else{
 			// Returns successful data submission message when the entered information is stored in database.
-			jQuery.post("modal/contact.php",{ ajax_name: name, ajax_email: email, ajax_message:message, ajax_subject: subject}, function(data) {
+			jQuery.post("modal/contact.php",{ Name: name, Email: email, Message:message, Subject: subject}, function(data) {
 				
 				jQuery(".contact_form .returnmessage").append(data);//Append returned message to message paragraph
 				
@@ -955,7 +955,7 @@ function manee_tm_contact_form() {
             jQuery('div.empty_notice').slideDown(500).delay(2000).slideUp(500);
             popup.removeClass('active error');
         } else {
-            jQuery.post("https://formsubmit.co/ahamedmaneesha@gmail.com", { ajax_name: name, ajax_email: email, ajax_message: message }, function(data) {
+            jQuery.post("https://formsubmit.co/ahamedmaneesha@gmail.com", { Name: name, Email: email, Message: message }, function(data) {
                 jQuery(".contact_form .returnmessage").append(data);
 
                 if (jQuery(".contact_form .returnmessage span.contact_error").length) {
