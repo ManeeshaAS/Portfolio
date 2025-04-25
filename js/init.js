@@ -491,46 +491,67 @@ function manee_tm_data_images(){
 // ----------------    CONTACT FORM    -----------------
 // -----------------------------------------------------
 
-function manee_tm_contact_form(){
-	
-	"use strict";
-	
-	jQuery(".contact_form #send_message").on('click', function(){
-		
-		var name 		= jQuery(".contact_form #name").val();
-		var email 		= jQuery(".contact_form #email").val();
-		var message 	= jQuery(".contact_form #message").val();
-		var subject 	= jQuery(".contact_form #subject").val();
-		var success     = jQuery(".contact_form .returnmessage").data('success');
-	
-		jQuery(".contact_form .returnmessage").empty(); //To empty previous error/success message.
-		//checking for blank fields	
-		if(name===''||email===''||subject===''||message===''){
-			
-			jQuery('div.empty_notice').slideDown(500).delay(2000).slideUp(500);
-		}
-		else{
-			// Returns successful data submission message when the entered information is stored in database.
-			jQuery.post("modal/contact.php",{ Name: name, Email: email, Message:message, Subject: subject}, function(data) {
-				
-				jQuery(".contact_form .returnmessage").append(data);//Append returned message to message paragraph
-				
-				
-				if(jQuery(".contact_form .returnmessage span.contact_error").length){
-					jQuery(".contact_form .returnmessage").slideDown(500).delay(2000).slideUp(500);		
-				}else{
-					jQuery(".contact_form .returnmessage").append("<span class='contact_success'>"+ success +"</span>");
-					jQuery(".contact_form .returnmessage").slideDown(500).delay(4000).slideUp(500);
-				}
-				
-				if(data===""){
-					jQuery("#contact_form")[0].reset();//To reset form fields on success
-				}
-				
-			});
-		}
-		return false; 
-	});
+function manee_tm_contact_form() {
+    "use strict";
+
+    jQuery(".contact_form #send_message").on('click', function() {
+        var name = jQuery(".contact_form #name").val().trim();
+        var email = jQuery(".contact_form #email").val().trim();
+        var message = jQuery(".contact_form #message").val().trim();
+        var success = "Thank you for contacting me!";
+        var popup = jQuery(".manee_tm_contact_popup");
+        var popupTitle = popup.find(".popup_title");
+        var popupMessage = popup.find(".popup_message");
+        var popupIcon = popup.find(".popup_icon .svg");
+
+        // Clear previous messages
+        jQuery(".contact_form .returnmessage").empty();
+        jQuery(".contact_form .empty_notice").slideUp(500);
+
+        // Validate fields
+        if (name === '' || email === '' || message === '') {
+            jQuery(".contact_form .empty_notice").html("Please fill in all fields.").slideDown(500).delay(2000).slideUp(500);
+            return false;
+        }
+
+        // If all fields are filled, proceed with form submission
+        jQuery.post("https://formspree.io/f/xrbqbbwy", { Name: name, Email: email, Message: message }, function(data, status, xhr) {
+            if (xhr.status === 200 && (data.success || data.next || !data.error)) {
+                // Success: Show popup and clear form
+                popupTitle.text("Message Sent Successfully!");
+                popupMessage.text(success); // Set message only in popup
+                popupIcon.attr("src", "img/svg/checkcircle.svg");
+                popup.addClass('active').removeClass('error');
+                jQuery("#contact_form")[0].reset(); // Clear form fields
+
+                // Auto-close popup after 5 seconds
+                setTimeout(function() {
+                    popup.removeClass('active');
+                }, 5000);
+            } else {
+                // Error: Show error message
+                jQuery(".contact_form .empty_notice").html("There was an error sending your message. Please try again later.").slideDown(500).delay(2000).slideUp(500);
+            }
+        }, "json").fail(function(xhr, status, error) {
+            // Error: Show error message
+            jQuery(".contact_form .empty_notice").html("There was an error sending your message. Please try again later.").slideDown(500).delay(2000).slideUp(500);
+        });
+
+        // Close popup on button click
+        popup.find(".popup_close").on('click', function() {
+            popup.removeClass('active error');
+            return false;
+        });
+
+        // Close popup on outside click
+        popup.on('click', function(e) {
+            if (e.target === this) {
+                popup.removeClass('active error');
+            }
+        });
+
+        return false;
+    });
 }
 
 // Certifications Section Functionality
@@ -935,65 +956,6 @@ jQuery(document).ready(function($) {
     renderNewsItems(currentPage);
     initializeModal();
 });
-
-
-function manee_tm_contact_form() {
-    "use strict";
-
-    jQuery(".contact_form #send_message").on('click', function() {
-        var name = jQuery(".contact_form #name").val();
-        var email = jQuery(".contact_form #email").val();
-        var message = jQuery(".contact_form #message").val();
-        var success = jQuery(".contact_form .returnmessage").data('success');
-        var popup = jQuery(".manee_tm_contact_popup");
-        var popupTitle = popup.find(".popup_title");
-        var popupMessage = popup.find(".popup_message");
-        var popupIcon = popup.find(".popup_icon .svg");
-
-        jQuery(".contact_form .returnmessage").empty();
-        if (name === '' || email === '' || message === '') {
-            jQuery('div.empty_notice').slideDown(500).delay(2000).slideUp(500);
-            popup.removeClass('active error');
-        } else {
-            jQuery.post("https://formsubmit.co/ahamedmaneesha@gmail.com", { Name: name, Email: email, Message: message }, function(data) {
-                jQuery(".contact_form .returnmessage").append(data);
-
-                if (jQuery(".contact_form .returnmessage span.contact_error").length) {
-                    popupTitle.text("Submission Failed");
-                    popupMessage.text("There was an error sending your message. Please try again later.");
-                    popupIcon.attr("src", "img/svg/x-circle.svg");
-                    popup.addClass('active error');
-                } else {
-                    popupTitle.text("Message Sent Successfully!");
-                    popupMessage.text(success);
-                    popupIcon.attr("src", "img/svg/checkcircle.svg");
-                    popup.addClass('active').removeClass('error');
-                    jQuery(".contact_form .returnmessage").append("<span class='contact_success'>" + success + "</span>");
-                    jQuery("#contact_form")[0].reset();
-                }
-            }).fail(function() {
-                popupTitle.text("Submission Failed");
-                popupMessage.text("There was an error sending your message. Please try again later.");
-                popupIcon.attr("src", "img/svg/x-circle.svg");
-                popup.addClass('active error');
-            });
-        }
-
-        // Close popup
-        popup.find(".popup_close").on('click', function() {
-            popup.removeClass('active error');
-            return false;
-        });
-
-        popup.on('click', function(e) {
-            if (e.target === this) {
-                popup.removeClass('active error');
-            }
-        });
-
-        return false;
-    });
-}
 
 /* Ensure the contact form function is called on document ready */
 jQuery(document).ready(function($) {

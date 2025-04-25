@@ -2181,6 +2181,8 @@ body.modal {
     display: none;
     text-align: left;
     font-weight: 500;
+    font-size: 16px;
+    font-family: "Poppins";
 }
 
 .manee_tm_contact .contact_error {
@@ -2291,7 +2293,7 @@ body.modal {
 .manee_tm_contact_popup .popup_icon .svg {
     width: 50px;
     height: 50px;
-    color: #F52225;
+    color: #28a745;
     margin-bottom: 20px;
 }
 
@@ -2312,7 +2314,7 @@ body.modal {
 }
 
 .manee_tm_contact_popup .manee_tm_button a.popup_close {
-    background-color: #F52225;
+    background-color: #28a745;
     color: #fff;
     padding: 10px 30px;
     border-radius: 50px;
@@ -2323,8 +2325,8 @@ body.modal {
 
 .manee_tm_contact_popup .manee_tm_button a.popup_close:hover {
     background-color: transparent;
-    color: #F52225;
-    border: 2px solid #F52225;
+    color: #28a745;
+    border: 2px solid #28a745;
 }
 
 .manee_tm_contact_popup.error .popup_icon .svg {
@@ -2474,6 +2476,7 @@ body.modal {
     .manee_tm_modalbox .description_wrap {padding: 30px;}
     .manee_tm_modalbox .popup_informations h3 {font-size: 20px;}
     .manee_tm_modalbox .news_details span {font-size: 12px;}
+    .manee_tm_news .list_inner {min-height: 400px;}
     .manee_tm_education_experience .education_experience_inner {
         flex-direction: column;
         gap: 40px;
@@ -2524,12 +2527,13 @@ body.modal {
     .manee_tm_projects .section-heading h3 {text-align: center;}
     .manee_tm_certifications .section-heading h3 {text-align: center;}
     .manee_tm_testimonials .manee_tm_title h3 {text-align: center;}
-    .manee_tm_news .manee_tm_title h3 {text-align: center;}
+    .manee_tm_news .manee_tm_title h3 {text-align: center;}    
     .manee_tm_contact .manee_tm_title h3 {text-align: center;}
     .manee_tm_projects .section-heading .section-desc {text-align: center;}
     .manee_tm_certifications .section-heading .section-desc {text-align: center;}
     .manee_tm_testimonials .manee_tm_title p {text-align: center;}
     .manee_tm_news .manee_tm_title p {text-align: center;}
+    .manee_tm_news .list_inner {min-height: 350px;}
     .manee_tm_contact .manee_tm_title p {text-align: center;}
 }
 @media (max-width: 576px) {
@@ -2571,5 +2575,6 @@ body.modal {
     .manee_tm_education_experience .experience-right ul li h5 {font-size: 16px;}
     .manee_tm_education_experience .education-left ul li p,
     .manee_tm_education_experience .experience-right ul li p {font-size: 15px;}
+    .manee_tm_news .list_inner {min-height: 300px;}
     .manee_tm_modalbox .close {margin-left: 23px; top: 38px;}
 }
