@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2021 marketify
- * Author: marketify
+ * Copyright (c) 2025 AS Maneesha
+ * Author: AS Maneesha
  * This file is made for CURRENT TEMPLATE
 */
 
